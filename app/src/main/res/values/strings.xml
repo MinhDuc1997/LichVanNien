@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Lịch Vạn Niên</string>
+    <string name="day_widget_name">Lịch Việt - Ngày</string>
+    <string name="small_day_widget_name">Lịch Việt - Ngày (nhỏ 1x1)</string>
+    <string name="month_widget_name">Lịch Việt - Tháng</string>
+    <string name="small_month_widget_name">Lịch Việt - Tháng (nhỏ 3x2)</string>
+    <string name="cancel">Hủy</string>
+    <string name="date_time_set">Đồng ý</string>
+    <string name="calendars_label">Chọn lịch</string>
+    <string name="what_label">Tên sự kiện</string>
+    <string name="hint_what">Sự kiện gì</string>
+    <string name="where_label">Ở đâu</string>
+    <string name="hint_where">Nơi xảy ra sự kiện</string>
+    <string name="edit_event_from_label">Từ</string>
+    <string name="edit_event_to_label">Đến</string>
+    <string name="edit_event_all_day_label">Tất cả</string>
+    <string name="description_label">Mô tả</string>
+    <string name="hint_description">Mô tả về sự kiện</string>
+    <string name="edit_event_calendar_label">Chỉnh sửa</string>
+    <string name="repeats_label">Lặp lại</string>
+    <string name="reminders_label">Nhắc nhở</string>
+    <string name="add_new_reminder">Thêm nhắc nhở</string>
+    <string name="number_years_label">Ghi nhận sự kiện</string>
+    <string name="select_number_years">Chọn số năm</string>
+    <string name="save_label">Lưu</string>
+    <string name="delete_label">Xóa</string>
+    <string name="discard_label">Hủy</string>
+    <string name="no_date_info">&lt;p&gt;Không có dữ liệu cho ngày này.&lt;/p&gt;</string>
+    <string name="lichviet_wallpaper1">Lịch Việt tường động</string>
+    <string name="famous_words_widget_name">Lịch Việt - Danh ngôn</string>
+    <string name="day_xlarge_widget_name">Lịch Việt - Ngày (Máy tính bảng)</string>
+
+    <string name="my_own_cancel">Để sau</string>
+    <string name="my_own_message">Bạn có thích ứng dụng Lịch Vạn Niên này? Bạn có muốn đánh giá để ứng dụng ngày càng phát triển?</string>
+    <string name="my_own_rate">Ok</string>
+    <string name="my_own_thanks">Không hiện nữa</string>
+    <string name="my_own_title">Đánh giá</string>
+    <string name="title_activity_one_day">OneDayActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="day">Lịch ngày</string>
+    <string name="month">Lịch tháng</string>
+    <string name="changeDay">Đổi ngày</string>
+    <string name="more">Nhiều hơn</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="to_day">Hôm nay</string>
+</resources>

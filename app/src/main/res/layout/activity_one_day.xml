@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativelayout_oneday"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.OneDayActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation_one_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#50000009"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@android:color/white"
+        app:menu="@menu/bottom_navigation_menu">
+    </android.support.design.widget.BottomNavigationView>
+
+    <View
+        android:id="@+id/lunar_date_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="57dp"
+        android:background="@color/blacktransparent" />
+
+    <TextView
+        android:id="@+id/thang_am_lich_in_one_day"
+        android:layout_width="wrap_content"
+        android:layout_height="94dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/time_now_in_one_day"
+        android:layout_marginEnd="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/ngay_am_lich_in_one_day"
+        android:layout_width="wrap_content"
+        android:layout_height="94dp"
+        android:layout_alignTop="@+id/time_now_in_one_day"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="73dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/time_now_in_one_day"
+        android:layout_width="wrap_content"
+        android:layout_height="94dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="73dp"
+        android:layout_marginStart="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/day_year_in_one_day"
+        android:layout_width="106dp"
+        android:layout_height="43dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/to_day_in_one_day"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/day_year_in_one_day"
+        android:layout_marginStart="63dp"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:text="@string/to_day"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/weather"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_alignTop="@+id/day_year_in_one_day"
+        android:layout_marginEnd="-58dp"
+        android:layout_toStartOf="@+id/to_day_in_one_day"
+        android:background="@drawable/bg_button"
+        android:src="@drawable/ic_cloud" />
+
+    <ImageView
+        android:id="@+id/share_in_one_day"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/day_year_in_one_day"
+        android:layout_marginEnd="62dp"
+        android:background="@drawable/bg_button"
+        android:src="@drawable/ic_share" />
+
+    <ImageView
+        android:id="@+id/note_in_one_day"
+        android:layout_width="53dp"
+        android:layout_height="43dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:layout_alignTop="@+id/day_year_in_one_day"
+        android:background="@drawable/bg_button"
+        android:src="@drawable/ic_event_note"
+        />
+
+</RelativeLayout>
