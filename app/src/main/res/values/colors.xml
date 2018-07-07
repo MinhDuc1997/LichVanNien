@@ -18,4 +18,8 @@
     <color name="white">#ffffff</color>
     <color name="yellow">#ded055</color>
     <color name="blacktransparent">#50000009</color>
+    <color name="blacktransparent1">#99000009</color>
+    <color name="whitetransparent">#90ffffff</color>
+    <color name="sundaycolor">#5306bc46</color>
+    <color name="pink">#92ea2394</color>
 </resources>

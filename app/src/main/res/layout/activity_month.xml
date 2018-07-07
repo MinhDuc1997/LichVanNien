@@ -45,16 +45,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu"
         tools:layout_editor_absoluteY="546dp">
-
     </android.support.design.widget.BottomNavigationView>
 
-    <CalendarView
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="462dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:unfocusedMonthDateColor="@color/white"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_month"
+        android:layout_marginTop="40dp"
+        app:mcv_arrowColor="@color/whitetransparent"
+        app:mcv_firstDayOfWeek="monday"
+        app:mcv_selectionColor="@color/blacktransparent1"
+        app:mcv_showOtherDates="all"
+        app:mcv_tileSize="65sp" />
 
 </RelativeLayout>
