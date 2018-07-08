@@ -3,7 +3,7 @@ package com.example.root.lichvannien.modules
 import java.lang.Math.PI
 
 class LunarCalendar{
-    private fun jdFromDate(dd: Int, mm: Int, yy: Int): Long {
+    fun jdFromDate(dd: Int, mm: Int, yy: Int): Long {
         val a = Math.floor(((14 - mm) / 12).toDouble())
         val y = yy + 4800 - a
         val m = mm + 12 * a - 3

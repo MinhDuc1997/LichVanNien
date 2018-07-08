@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.modules.RandomOn
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
-import com.prolificinteractive.materialcalendarview.DayViewFacade
+import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.activity_month.*
 import java.util.*
 
@@ -56,6 +55,7 @@ class MonthActivity : AppCompatActivity() {
         calendarView.setWeekDayTextAppearance(R.style.WeekDayTextAppearance)
         calendarView.addDecorators(SundayDecorator())
         calendarView.addDecorators(TodayDecorator())
+        calendarView.setOnDateChangedListener(DateSelectedListener())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -111,5 +111,21 @@ class MonthActivity : AppCompatActivity() {
         override fun decorate(view: DayViewFacade) {
             view.setBackgroundDrawable(resources.getDrawable(R.drawable.current_day))
         }
+    }
+
+    inner class DateSelectedListener: OnDateSelectedListener {
+        override fun onDateSelected(p0: MaterialCalendarView, p1: CalendarDay, p2: Boolean) {
+            val cal = p1.calendar
+            val wd = cal.get(Calendar.DAY_OF_WEEK)
+            val d = cal.get(Calendar.DAY_OF_MONTH)
+            val m = cal.get(Calendar.MONTH) + 1
+            val y = cal.get(Calendar.YEAR)
+            val result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
+            val intent = Intent(this@MonthActivity, OneDayActivity::class.java)
+            intent.putExtra("DateSet", result)
+            startActivity(intent)
+            //Toast.makeText(this@MonthActivity, "$result", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

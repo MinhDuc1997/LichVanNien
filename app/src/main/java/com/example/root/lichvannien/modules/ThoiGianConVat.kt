@@ -16,23 +16,22 @@ class ThoiGianConVat(millisTime: Long?){
 
     lateinit var arrStart: ArrayList<String>
     lateinit var arrEnd: ArrayList<String>
-    lateinit var can: String
-    lateinit var chi: String
 
     val arrName = arrayListOf("Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi")
     val arrChi = arrayListOf("Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mẹo", "Thìn", "Tỵ", "Ngọ", "Mùi")
-    val arrCan = arrayListOf("Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ")
+    val arrCanYear = arrayListOf("Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ")
     val arrChiMonth = arrayListOf("Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu")
+    val arrayCanMonth = arrayListOf("Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý")
+    val arrChiDay = arrayListOf("Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi")
+    val arrayCanDay = arrayListOf("Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý")
 
     init {
         if(millisTime != null){
             date = Date(millisTime)
             hours = hoursFormat.format(date)
             year = yearFormat.format(date).toInt()
-            getNamConVat()
         }
     }
-
 
     fun getCanhGio(month: Int) : String{
         var hours1: Long //hours start in array
@@ -99,37 +98,46 @@ class ThoiGianConVat(millisTime: Long?){
             hours3 = hoursFormat.parse(arrEnd[i]).time //hours end in array
             if(hours2 >= hours1 && hours2 <hours3){
                 finded = 1
-                Log.d("Gio"," $can ${arrName[i]}")
-                return "$can ${arrName[i]}"
+                Log.d("Gio"," ${arrName[i]}")
+                return "${arrName[i]}"
             }
         }
         if(finded == 0){
             if(month == 4 || month == 5 || month == 6) {
                 Log.d("Gio", arrName[arrStart.size - 1])
-                return "$can ${arrName[arrStart.size - 1]}"
+                return "${arrName[arrStart.size - 1]}"
             }else{
-                return "$can ${arrName[0]}"
+                return "${arrName[0]}"
             }
         }
         return "null"
     }
 
     fun getNamConVat(year: Int): String{
-        can = arrCan[year%10]
-        chi = arrChi[year%12]
+        val can = arrCanYear[year%10]
+        val chi = arrChi[year%12]
         Log.d("Nam:", "$can $chi")
         return "$can $chi"
     }
 
     fun getNamConVat(): String{
-        can = arrCan[this.year%10]
-        chi = arrChi[this.year%12]
+        val can = arrCanYear[this.year%10]
+        val chi = arrChi[this.year%12]
         return "$can $chi"
     }
 
-    fun getThangConVat(month: Int): String{
-        Log.d("Thang", "$can ${arrChiMonth[month-1]}")
-        return "$can ${arrChiMonth[month-1]}"
+    fun getThangConVat(month: Int, year: Int): String{
+        val can = (year*12+month+3)%10
+        Log.d("Thang", "${arrayCanMonth[can]} ${arrChiMonth[month-1]}")
+        return "${arrayCanMonth[can]} ${arrChiMonth[month-1]}"
+    }
+
+    fun getNgayConVat(day: Int, month: Int, year: Int): String{
+        val jd = LunarCalendar().jdFromDate(day, month, year)
+        val can = ((jd+9)%10).toInt()
+        val chi = ((jd+1)%12).toInt()
+        Log.d("Ngay", "${arrayCanDay[can]} ${arrChiDay[chi]}")
+        return "${arrayCanDay[can]} ${arrChiDay[chi]}"
     }
 
 }

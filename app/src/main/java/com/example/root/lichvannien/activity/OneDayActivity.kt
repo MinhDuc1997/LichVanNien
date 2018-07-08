@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.R.id.month_item
 import com.example.root.lichvannien.adapter.OneDayAdapter
@@ -26,10 +27,13 @@ class OneDayActivity : AppCompatActivity() {
     var d = 0
     var m = 0
     var y = 0
+    lateinit var getArrayListDate: ArrayList<String>
+    lateinit var result: String
     lateinit var thoiGianConVat: ThoiGianConVat
     lateinit var ngayConVat: String
     lateinit var thangconvat: String
     var fixMonthLunar = 0
+    var indexFinded = 0
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,15 +47,18 @@ class OneDayActivity : AppCompatActivity() {
 
         start.set(1970, 1, 1)
         end.set(2030,12,31)
-        val getArrayListDate = arrListDate(start, end)
+        getArrayListDate = arrListDate(start, end)
 
         val wd = currentDate.get(Calendar.DAY_OF_WEEK)
         d = currentDate.get(Calendar.DAY_OF_MONTH)
         m = currentDate.get(Calendar.MONTH) + 1
         y = currentDate.get(Calendar.YEAR)
-        val result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
+        result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
 
-        val indexFinded = getArrayListDate.indexOf(result)
+        thoiGianConVat = ThoiGianConVat(null)
+        ngayConVat = thoiGianConVat.getNgayConVat(d, m, y)
+
+        indexFinded = getArrayListDate.indexOf(result)
 
         val pagerAdapter = OneDayAdapter(supportFragmentManager, getArrayListDate)
         viewpager.adapter = pagerAdapter
@@ -66,11 +73,10 @@ class OneDayActivity : AppCompatActivity() {
         fixMonthLunar = m
         y = jsonObject.getString("lunarYear").toInt()
 
-        thoiGianConVat = ThoiGianConVat(null)
-        thoiGianConVat.getNamConVat(y)
-        thangconvat = thoiGianConVat.getThangConVat(m) //m lunar
 
-        ngay_am_lich_in_one_day.text = "Ngày\n$d"
+        thangconvat = thoiGianConVat.getThangConVat(m, y) //m, y lunar
+
+        ngay_am_lich_in_one_day.text = "Ngày\n$d\n$ngayConVat"
         thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
 
         var lastPage = indexFinded
@@ -84,8 +90,11 @@ class OneDayActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 Log.d("onPageSelected", position.toString())
                 jsonObject = JSONObject(getArrayListDate[position])
-                day_year_in_one_day.text = "${jsonObject.getString("month").toInt()}-${jsonObject.getString("year").toInt()}"
-
+                d = jsonObject.getString("day").toInt()
+                m = jsonObject.getString("month").toInt()
+                y = jsonObject.getString("year").toInt()
+                day_year_in_one_day.text = "$m-$y"
+                ngayConVat = thoiGianConVat.getNgayConVat(d, m, y)
                 lunarDate = LunarCalendar().convertSolar2Lunar(jsonObject.getString("day").toInt(),
                         jsonObject.getString("month").toInt(),
                         jsonObject.getString("year").toInt(),
@@ -95,10 +104,10 @@ class OneDayActivity : AppCompatActivity() {
                 m = jsonObject.getString("lunarMonth").toInt()
                 y = jsonObject.getString("lunarYear").toInt()
 
-                thoiGianConVat.getNamConVat(y)
-                thangconvat = thoiGianConVat.getThangConVat(m) //m lunar
 
-                ngay_am_lich_in_one_day.text = "Ngày\n\n$d"
+                thangconvat = thoiGianConVat.getThangConVat(m, y) //m, y lunar
+
+                ngay_am_lich_in_one_day.text = "Ngày\n$d\n$ngayConVat"
                 thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
                 if(position > lastPage) {
                     //Log.d("aaaaaaaaaa", "left")
@@ -111,6 +120,7 @@ class OneDayActivity : AppCompatActivity() {
         })
 
         to_day_in_one_day.setOnClickListener{
+            indexFinded = getArrayListDate.indexOf(result)
             viewpager.setCurrentItem(indexFinded)
         }
 
@@ -165,11 +175,11 @@ class OneDayActivity : AppCompatActivity() {
                 val minutee= currentDatee.get(Calendar.MINUTE)
 
                 val thoiGianConVatt = ThoiGianConVat(currentDatee.timeInMillis)
-                val canhgio =  thoiGianConVatt.getCanhGio(fixMonthLunar) //m lunar
+                val canhgio =  thoiGianConVatt.getCanhGio(m) //m lunar
 
                 this@OneDayActivity.runOnUiThread {
                     if(minute<10)
-                        time_now_in_one_day.text = "Giờ\n$hourss:0$minutee\n$canhgio"
+                        time_now_in_one_day.text = "Giờ\n$hourss:$minutee\n$canhgio"
                     else
                         time_now_in_one_day.text = "Giờ\n$hourss:$minutee\n$canhgio"
                 }
@@ -187,5 +197,17 @@ class OneDayActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         threadTime.cancel()
+    }
+
+    public override fun onNewIntent(intent: Intent) {
+        setIntent(intent)
+        val dateSet = intent.getStringExtra("DateSet")
+
+        if(dateSet != null) {
+            Toast.makeText(this@OneDayActivity, dateSet, Toast.LENGTH_SHORT).show()
+            indexFinded = getArrayListDate.indexOf(dateSet)
+            viewpager.currentItem = indexFinded
+        }
+        super.onNewIntent(intent)
     }
 }
