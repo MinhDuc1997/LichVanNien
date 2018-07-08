@@ -10,6 +10,7 @@ import com.example.root.lichvannien.R
 import com.example.root.lichvannien.R.id.month_item
 import com.example.root.lichvannien.adapter.OneDayAdapter
 import com.example.root.lichvannien.modules.LunarCalendar
+import com.example.root.lichvannien.modules.ThoiGianConVat
 import kotlinx.android.synthetic.main.activity_month.*
 import kotlinx.android.synthetic.main.activity_one_day.*
 import kotlinx.android.synthetic.main.fragment_one_day.*
@@ -22,6 +23,13 @@ import kotlin.concurrent.scheduleAtFixedRate
 class OneDayActivity : AppCompatActivity() {
     var currentDate = Calendar.getInstance()
     lateinit var threadTime: ThreahTime
+    var d = 0
+    var m = 0
+    var y = 0
+    lateinit var thoiGianConVat: ThoiGianConVat
+    lateinit var ngayConVat: String
+    lateinit var thangconvat: String
+    var fixMonthLunar = 0
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,15 +41,15 @@ class OneDayActivity : AppCompatActivity() {
         start.clear()
         end.clear()
 
-        start.set(1900, 1, 1)
+        start.set(1970, 1, 1)
         end.set(2030,12,31)
         val getArrayListDate = arrListDate(start, end)
 
         val wd = currentDate.get(Calendar.DAY_OF_WEEK)
-        val d = currentDate.get(Calendar.DAY_OF_MONTH)
-        val m = currentDate.get(Calendar.MONTH)
-        val y = currentDate.get(Calendar.YEAR)
-        val result = "{'weekday': '$wd' ,'day': '$d', 'month': '${m+1}', 'year': '$y'}"
+        d = currentDate.get(Calendar.DAY_OF_MONTH)
+        m = currentDate.get(Calendar.MONTH) + 1
+        y = currentDate.get(Calendar.YEAR)
+        val result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
 
         val indexFinded = getArrayListDate.indexOf(result)
 
@@ -49,11 +57,21 @@ class OneDayActivity : AppCompatActivity() {
         viewpager.adapter = pagerAdapter
         viewpager.currentItem = indexFinded
 
-        var lunarDate = LunarCalendar().convertSolar2Lunar(d, m+1, y,7f)
+        day_year_in_one_day.text = "$m-$y"
+
+        var lunarDate = LunarCalendar().convertSolar2Lunar(d, m, y,7f)
         var jsonObject = JSONObject(lunarDate)
-        ngay_am_lich_in_one_day.text = "Ngày\n\n" + jsonObject.getString("lunarDay")
-        thang_am_lich_in_one_day.text = "Tháng\n\n" + jsonObject.getString("lunarMonth")
-        day_year_in_one_day.text = "${m+1}-$y"
+        d = jsonObject.getString("lunarDay").toInt()
+        m = jsonObject.getString("lunarMonth").toInt()
+        fixMonthLunar = m
+        y = jsonObject.getString("lunarYear").toInt()
+
+        thoiGianConVat = ThoiGianConVat(null)
+        thoiGianConVat.getNamConVat(y)
+        thangconvat = thoiGianConVat.getThangConVat(m) //m lunar
+
+        ngay_am_lich_in_one_day.text = "Ngày\n$d"
+        thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
 
         var lastPage = indexFinded
         viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -63,19 +81,25 @@ class OneDayActivity : AppCompatActivity() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
 
-            @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 Log.d("onPageSelected", position.toString())
                 jsonObject = JSONObject(getArrayListDate[position])
+                day_year_in_one_day.text = "${jsonObject.getString("month").toInt()}-${jsonObject.getString("year").toInt()}"
 
-                day_year_in_one_day.text = "${jsonObject.getString("month").toInt()}-$y"
                 lunarDate = LunarCalendar().convertSolar2Lunar(jsonObject.getString("day").toInt(),
                         jsonObject.getString("month").toInt(),
                         jsonObject.getString("year").toInt(),
                         7f)
                 jsonObject = JSONObject(lunarDate)
-                ngay_am_lich_in_one_day.text = "Ngày\n\n${jsonObject.getString("lunarDay")}"
-                thang_am_lich_in_one_day.text = "Tháng\n\n${jsonObject.getString("lunarMonth")}"
+                d = jsonObject.getString("lunarDay").toInt()
+                m = jsonObject.getString("lunarMonth").toInt()
+                y = jsonObject.getString("lunarYear").toInt()
+
+                thoiGianConVat.getNamConVat(y)
+                thangconvat = thoiGianConVat.getThangConVat(m) //m lunar
+
+                ngay_am_lich_in_one_day.text = "Ngày\n\n$d"
+                thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
                 if(position > lastPage) {
                     //Log.d("aaaaaaaaaa", "left")
                 }
@@ -84,7 +108,6 @@ class OneDayActivity : AppCompatActivity() {
                 }
                 lastPage = position
             }
-
         })
 
         to_day_in_one_day.setOnClickListener{
@@ -115,9 +138,9 @@ class OneDayActivity : AppCompatActivity() {
     private fun getDate(calendar: Calendar): String{
         val wd = calendar.get(Calendar.DAY_OF_WEEK)
         val d = calendar.get(Calendar.DAY_OF_MONTH)
-        val m = calendar.get(Calendar.MONTH)
+        val m = calendar.get(Calendar.MONTH) + 1
         val y = calendar.get(Calendar.YEAR)
-        return "{'weekday': '$wd' ,'day': '$d', 'month': '${m+1}', 'year': '$y'}"
+        return "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
     }
 
     inner class ThreahTime: Runnable{
@@ -135,17 +158,20 @@ class OneDayActivity : AppCompatActivity() {
             thread.join()
         }
 
-        @SuppressLint("SetTextI18n")
         override fun run() {
             timer.scheduleAtFixedRate(0, 2000){
-                currentDate = Calendar.getInstance()
-                hours = currentDate.get(Calendar.HOUR_OF_DAY)
-                minute = currentDate.get(Calendar.MINUTE)
+                val currentDatee = Calendar.getInstance()
+                val hourss = currentDatee.get(Calendar.HOUR_OF_DAY)
+                val minutee= currentDatee.get(Calendar.MINUTE)
+
+                val thoiGianConVatt = ThoiGianConVat(currentDatee.timeInMillis)
+                val canhgio =  thoiGianConVatt.getCanhGio(fixMonthLunar) //m lunar
+
                 this@OneDayActivity.runOnUiThread {
                     if(minute<10)
-                        time_now_in_one_day.text = "Giờ\n\n$hours:0$minute"
+                        time_now_in_one_day.text = "Giờ\n$hourss:0$minutee\n$canhgio"
                     else
-                        time_now_in_one_day.text = "Giờ\n\n$hours:$minute"
+                        time_now_in_one_day.text = "Giờ\n$hourss:$minutee\n$canhgio"
                 }
             }
         }
