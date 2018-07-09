@@ -169,16 +169,16 @@ class OneDayActivity : AppCompatActivity() {
         @SuppressLint("SetTextI18n")
         override fun run() {
             timer.scheduleAtFixedRate(0, 2000){
-                val currentDatee = Calendar.getInstance()
-                val hourss = currentDatee.get(Calendar.HOUR_OF_DAY)
-                val minutee= currentDatee.get(Calendar.MINUTE)
+                var currentDatee = Calendar.getInstance()
+                var hourss = currentDatee.get(Calendar.HOUR_OF_DAY)
+                var minutee= currentDatee.get(Calendar.MINUTE)
 
-                val thoiGianConVatt = ThoiGianConVat(currentDatee.timeInMillis)
-                val canhgio =  thoiGianConVatt.getCanhGio(m) //m lunar
+                var thoiGianConVatt = ThoiGianConVat(currentDatee.timeInMillis)
+                var canhgio =  thoiGianConVatt.getCanhGio(m) //m lunar
 
                 this@OneDayActivity.runOnUiThread {
                     if(minute<10)
-                        time_now_in_one_day.text = "Giờ\n$hourss:$minutee\n$canhgio"
+                        time_now_in_one_day.text = "Giờ\n$hourss:0$minutee\n$canhgio"
                     else
                         time_now_in_one_day.text = "Giờ\n$hourss:$minutee\n$canhgio"
                 }

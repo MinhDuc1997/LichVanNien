@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.root.lichvannien.R
+import com.example.root.lichvannien.adapter.DetailLunarAdapter
 import com.example.root.lichvannien.modules.LunarCalendar
 import com.example.root.lichvannien.modules.RandomOn
 import com.example.root.lichvannien.modules.ThoiGianConVat
@@ -61,8 +62,9 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
                 "Gio $gio, ngay $ngay, thang $thang, nam $nam"
 
         toolbar_title.text = "$wd, $d/$m/$y"
-        thong_tin_chung.text = thongTinChung
-        gio_hoang_dao.text = gioHoangDao(ngay)
+        val arrDatas = arrayListOf(thongTinChung, gioHoangDao(ngay))
+        val arrLables = arrayListOf("Giờ hoàng đạo", "Tiết khí", "Trực ngày", "Việc nên làm", "Việc không nên làm", "Thông tin ngày theo Nhị Thập Bát Tú")
+        list_view_lunar.adapter = DetailLunarAdapter(arrLables, arrDatas, R.layout.detail_list_view_lunar, this)
     }
 
     private fun setUI(){
@@ -73,6 +75,7 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         toolbar_one_day.setNavigationIcon(R.drawable.ic_back)
         relativelayout_detail_lunar.setBackgroundResource(arrayDrawer[RandomOn().random(0, 9)])
+        list_view_lunar.top = toolbar_one_day.height
     }
 
     private fun setDate(data: String){
@@ -136,7 +139,7 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
             "Dậu" -> return "Tý, Dần, Mão, Ngọ, Mùi, Dậu"
             "Tuất" -> return "Dần, Thìn, Tỵ, Thân, Dậu, Hợi"
             "Hợi" -> return "Sửu, Thìn, Ngọ, Mùi, Tuất, Hợi"
-            else -> return "null"
+            else -> return ""
         }
     }
 
