@@ -56,7 +56,6 @@
         app:mcv_arrowColor="@color/whitetransparent"
         app:mcv_firstDayOfWeek="monday"
         app:mcv_selectionColor="@color/blacktransparent1"
-        app:mcv_showOtherDates="decorated_disabled"
-        app:mcv_tileSize="55sp" />
+        app:mcv_showOtherDates="decorated_disabled" />
 
 </RelativeLayout>
