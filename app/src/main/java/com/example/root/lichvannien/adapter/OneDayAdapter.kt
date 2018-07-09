@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.util.Log
-import android.view.ViewGroup
 import com.example.root.lichvannien.fragment.OneDay
 import java.util.*
 
@@ -23,11 +21,6 @@ class OneDayAdapter(fragmentManager: FragmentManager, val data: ArrayList<String
 
     override fun getCount(): Int {
         return data.size
-    }
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        return super.instantiateItem(container, position)
-
     }
 
 }

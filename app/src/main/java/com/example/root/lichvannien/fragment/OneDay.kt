@@ -1,6 +1,5 @@
 package com.example.root.lichvannien.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -8,29 +7,22 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.activity.DetailLunarCalendarActivity
-import com.example.root.lichvannien.modules.LunarCalendar
 import com.example.root.lichvannien.modules.RandomOn
-import kotlinx.android.synthetic.main.activity_one_day.*
 import kotlinx.android.synthetic.main.fragment_one_day.*
 import org.json.JSONObject
-import java.util.*
 
 class OneDay : Fragment() {
 
     private lateinit var arrStringFromXml: Array<String>
-    lateinit var lunarDate: String
-    var chilFrag = 0
 
-    val arrayWeekDay = mapOf("2" to "Thứ hai",
+    private val arrayWeekDay = mapOf("2" to "Thứ hai",
             "3" to "Thứ ba", "4" to "Thứ tư",
             "5" to "Thứ năm", "6" to "Thứ sáu",
             "7" to "Thứ Bảy", "1" to "Chủ Nhật")
 
-    val arrayDrawer = listOf(R.drawable.nen, R.drawable.nen1,
+    private val arrayDrawer = listOf(R.drawable.nen, R.drawable.nen1,
             R.drawable.nen2, R.drawable.nen5,
             R.drawable.nen6, R.drawable.nen7,
             R.drawable.nen8, R.drawable.nen9,
@@ -66,9 +58,4 @@ class OneDay : Fragment() {
             context!!.startActivity(intent)
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
 }

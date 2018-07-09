@@ -1,29 +1,30 @@
 package com.example.root.lichvannien.modules
 
+import android.annotation.SuppressLint
 import android.util.Log
-import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ThoiGianConVat(millisTime: Long?){
 
-    val hoursFormat = SimpleDateFormat("HH:mm")
-    val yearFormat = SimpleDateFormat("yyyy")
-    lateinit var date: Date
-    lateinit var hours: String
-    var year = 0
+    @SuppressLint("SimpleDateFormat")
+    private val hoursFormat = SimpleDateFormat("HH:mm")
+    @SuppressLint("SimpleDateFormat")
+    private val yearFormat = SimpleDateFormat("yyyy")
+    private lateinit var date: Date
+    private lateinit var hours: String
+    private var year = 0
 
-    lateinit var arrStart: ArrayList<String>
-    lateinit var arrEnd: ArrayList<String>
+    private lateinit var arrStart: ArrayList<String>
+    private lateinit var arrEnd: ArrayList<String>
 
-    val arrName = arrayListOf("Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi")
-    val arrChi = arrayListOf("Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mẹo", "Thìn", "Tỵ", "Ngọ", "Mùi")
-    val arrCanYear = arrayListOf("Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ")
-    val arrChiMonth = arrayListOf("Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu")
-    val arrayCanMonth = arrayListOf("Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý")
-    val arrChiDay = arrayListOf("Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi")
-    val arrayCanDay = arrayListOf("Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý")
+    private val arrName = arrayListOf("Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi")
+    private val arrChi = arrayListOf("Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mẹo", "Thìn", "Tỵ", "Ngọ", "Mùi")
+    private val arrCanYear = arrayListOf("Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ")
+    private val arrChiMonth = arrayListOf("Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu")
+    private val arrayCanMonth = arrayListOf("Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý")
+    private val arrChiDay = arrayListOf("Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi")
+    private val arrayCanDay = arrayListOf("Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý")
 
     init {
         if(millisTime != null){
@@ -99,15 +100,15 @@ class ThoiGianConVat(millisTime: Long?){
             if(hours2 >= hours1 && hours2 <hours3){
                 finded = 1
                 Log.d("Gio"," ${arrName[i]}")
-                return "${arrName[i]}"
+                return arrName[i]
             }
         }
         if(finded == 0){
             if(month == 4 || month == 5 || month == 6) {
                 Log.d("Gio", arrName[arrStart.size - 1])
-                return "${arrName[arrStart.size - 1]}"
+                return arrName[arrStart.size - 1]
             }else{
-                return "${arrName[0]}"
+                return arrName[0]
             }
         }
         return "null"

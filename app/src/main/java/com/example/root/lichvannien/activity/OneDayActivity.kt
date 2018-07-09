@@ -6,15 +6,11 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
 import com.example.root.lichvannien.R
-import com.example.root.lichvannien.R.id.month_item
 import com.example.root.lichvannien.adapter.OneDayAdapter
 import com.example.root.lichvannien.modules.LunarCalendar
 import com.example.root.lichvannien.modules.ThoiGianConVat
-import kotlinx.android.synthetic.main.activity_month.*
 import kotlinx.android.synthetic.main.activity_one_day.*
-import kotlinx.android.synthetic.main.fragment_one_day.*
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,44 +18,27 @@ import kotlin.concurrent.scheduleAtFixedRate
 
 
 class OneDayActivity : AppCompatActivity() {
-    var currentDate = Calendar.getInstance()
-    lateinit var threadTime: ThreahTime
-    var d = 0
-    var m = 0
-    var y = 0
-    lateinit var getArrayListDate: ArrayList<String>
-    lateinit var result: String
-    lateinit var thoiGianConVat: ThoiGianConVat
-    lateinit var ngayConVat: String
-    lateinit var thangconvat: String
-    var fixMonthLunar = 0
-    var indexFinded = 0
+    private var currentDate = Calendar.getInstance()
+    private lateinit var threadTime: ThreahTime
+    private var wd = 0
+    private var d = 0
+    private var m = 0
+    private var y = 0
+    private lateinit var getArrayListDate: ArrayList<String>
+    private lateinit var result: String
+    private lateinit var thoiGianConVat: ThoiGianConVat
+    private lateinit var ngayConVat: String
+    private lateinit var thangconvat: String
+    private var fixMonthLunar = 0
+    private var indexFinded = 0
+    private lateinit var start: Calendar
+    private lateinit var end: Calendar
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_one_day)
-
-        val start = Calendar.getInstance()
-        val end = Calendar.getInstance()
-        start.clear()
-        end.clear()
-
-        start.set(1970, 1, 1)
-        end.set(2030,12,31)
-        getArrayListDate = arrListDate(start, end)
-
-        val wd = currentDate.get(Calendar.DAY_OF_WEEK)
-        d = currentDate.get(Calendar.DAY_OF_MONTH)
-        m = currentDate.get(Calendar.MONTH) + 1
-        y = currentDate.get(Calendar.YEAR)
-        result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
-
-        thoiGianConVat = ThoiGianConVat(null)
-        ngayConVat = thoiGianConVat.getNgayConVat(d, m, y)
-
-        indexFinded = getArrayListDate.indexOf(result)
-
+        setDate()
         val pagerAdapter = OneDayAdapter(supportFragmentManager, getArrayListDate)
         viewpager.adapter = pagerAdapter
         viewpager.currentItem = indexFinded
@@ -72,7 +51,6 @@ class OneDayActivity : AppCompatActivity() {
         m = jsonObject.getString("lunarMonth").toInt()
         fixMonthLunar = m
         y = jsonObject.getString("lunarYear").toInt()
-
 
         thangconvat = thoiGianConVat.getThangConVat(m, y) //m, y lunar
 
@@ -121,7 +99,7 @@ class OneDayActivity : AppCompatActivity() {
 
         to_day_in_one_day.setOnClickListener{
             indexFinded = getArrayListDate.indexOf(result)
-            viewpager.setCurrentItem(indexFinded)
+            viewpager.currentItem = indexFinded
         }
 
         bottom_navigation_one_day.setOnNavigationItemSelectedListener {
@@ -136,10 +114,31 @@ class OneDayActivity : AppCompatActivity() {
         }
     }
 
+    private fun setDate(){
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
+        start.clear()
+        end.clear()
+
+        start.set(1970, 1, 1)
+        end.set(2030,12,31)
+        getArrayListDate = arrListDate(start, end)
+
+        wd = currentDate.get(Calendar.DAY_OF_WEEK)
+        d = currentDate.get(Calendar.DAY_OF_MONTH)
+        m = currentDate.get(Calendar.MONTH) + 1
+        y = currentDate.get(Calendar.YEAR)
+        thoiGianConVat = ThoiGianConVat(null)
+        ngayConVat = thoiGianConVat.getNgayConVat(d, m, y)
+        result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
+        indexFinded = getArrayListDate.indexOf(result)
+    }
+
     private fun arrListDate(start: Calendar, end: Calendar): ArrayList<String>{
         val arList = ArrayList<String>()
         while (start <= end){
-            arList.add(getDate(start))
+            val getDate = getDate(start)
+            arList.add(getDate)
             start.add(Calendar.DAY_OF_MONTH, 1)
         }
         return arList
@@ -155,10 +154,9 @@ class OneDayActivity : AppCompatActivity() {
 
     inner class ThreahTime: Runnable{
 
-        val thread = Thread(this)
-        val timer = Timer()
-        var hours = 0
-        var minute = 0
+        private val thread = Thread(this)
+        private val timer = Timer()
+        private var minute = 0
 
         fun start(){
             thread.start()
@@ -168,6 +166,7 @@ class OneDayActivity : AppCompatActivity() {
             thread.join()
         }
 
+        @SuppressLint("SetTextI18n")
         override fun run() {
             timer.scheduleAtFixedRate(0, 2000){
                 val currentDatee = Calendar.getInstance()
@@ -204,7 +203,6 @@ class OneDayActivity : AppCompatActivity() {
         val dateSet = intent.getStringExtra("DateSet")
 
         if(dateSet != null) {
-            Toast.makeText(this@OneDayActivity, dateSet, Toast.LENGTH_SHORT).show()
             indexFinded = getArrayListDate.indexOf(dateSet)
             viewpager.currentItem = indexFinded
         }
