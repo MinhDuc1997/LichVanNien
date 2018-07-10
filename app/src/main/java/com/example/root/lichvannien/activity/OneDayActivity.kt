@@ -39,8 +39,7 @@ class OneDayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_one_day)
         setDate()
-        val pagerAdapter = OneDayAdapter(supportFragmentManager, getArrayListDate)
-        viewpager.adapter = pagerAdapter
+        viewpager.adapter = OneDayAdapter(supportFragmentManager, getArrayListDate)
         viewpager.currentItem = indexFinded
 
         day_year_in_one_day.text = "$m-$y"
@@ -106,6 +105,11 @@ class OneDayActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.month_item -> {
                     val intent = Intent(this, MonthActivity::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.change_day_item ->{
+                    val intent = Intent(this, SelectDayActvity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -188,7 +192,7 @@ class OneDayActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        bottom_navigation_one_day.selectedItemId = R.id.detail_item
+        bottom_navigation_one_day.selectedItemId = R.id.day_item
         threadTime = ThreahTime()
         threadTime.start()
     }

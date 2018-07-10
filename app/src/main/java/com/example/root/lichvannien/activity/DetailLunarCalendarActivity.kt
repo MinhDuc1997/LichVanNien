@@ -57,9 +57,9 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateUI(){
-        val thongTinChung = "Ngay am: Ngay $lunarDay, thang $lunarMonth, nam $lunarYear\n" +
-                "Ngay: $ngayHoangDao\n" +
-                "Gio $gio, ngay $ngay, thang $thang, nam $nam"
+        val thongTinChung = "Ngày âm: Ngày $lunarDay, tháng $lunarMonth, năm $lunarYear\n" +
+                "Ngày: $ngayHoangDao\n" +
+                "Giờ $gio, ngày $ngay, tháng $thang, năm $nam"
 
         toolbar_title.text = "$wd, $d/$m/$y"
         val arrDatas = arrayListOf(thongTinChung, gioHoangDao(ngay))

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DatePicker" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorControlNormal">@color/whitetransparent</item>
+        <item name="android:strokeColor">@color/pink</item>
+        <item name="android:maxButtonHeight">1dp</item>
+    </style>
+</resources>

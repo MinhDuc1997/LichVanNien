@@ -49,8 +49,13 @@ class MonthActivity : AppCompatActivity() {
         calendarView.setOnMonthChangedListener(MonthChangeListener())
         bottom_navigation_month.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.detail_item -> {
+                R.id.day_item -> {
                     val intent = Intent(this, OneDayActivity::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.change_day_item ->{
+                    val intent = Intent(this, SelectDayActvity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -74,7 +79,7 @@ class MonthActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         toolbar_month.setNavigationIcon(R.drawable.ic_back)
         relativelayout_month.setBackgroundResource(arrayDrawer[RandomOn().random(0, 9)])
-        bottom_navigation_month.menu.findItem(R.id.detail_item).title = "Lịch ngày"
+        bottom_navigation_month.menu.findItem(R.id.day_item).title = "Lịch ngày"
     }
 
     private fun setLunar(start: Calendar, end: Calendar){

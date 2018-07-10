@@ -46,7 +46,7 @@
         android:gravity="center"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/ngay_am_lich_in_one_day"
@@ -58,7 +58,7 @@
         android:gravity="center"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/time_now_in_one_day"
@@ -71,7 +71,7 @@
         android:gravity="center"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/day_year_in_one_day"

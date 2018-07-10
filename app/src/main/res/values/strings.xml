@@ -48,4 +48,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="to_day">Hôm nay</string>
+    <string name="go_to_day">Vào xem ngày</string>
+    <string name="ngay_duong">Ngày dương</string>
+    <string name="ngay_am">Ngày âm</string>
 </resources>

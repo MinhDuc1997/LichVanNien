@@ -35,4 +35,17 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="SelectDay" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="DatePicker" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorControlNormal">@color/whitetransparent</item>
+        <item name="android:strokeColor">@color/pink</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
 </resources>

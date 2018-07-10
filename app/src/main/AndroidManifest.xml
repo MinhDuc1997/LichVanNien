@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.OneDayActivity"
-            android:theme="@style/OnedayThemse"
-            android:launchMode="singleTask">
+            android:launchMode="singleInstance"
+            android:theme="@style/OnedayThemse">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,12 +21,18 @@
         </activity>
         <activity
             android:name=".activity.DetailLunarCalendarActivity"
-            android:theme="@style/DetaiLunarThemse"
-            android:launchMode="singleTask">
+            android:launchMode="singleInstance"
+            android:theme="@style/DetaiLunarThemse">
         </activity>
-        <activity android:name=".activity.MonthActivity"
-            android:theme="@style/DetaiLunarThemse"
-            android:launchMode="singleTask">
+        <activity
+            android:name=".activity.MonthActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/DetaiLunarThemse">
+
+        </activity>
+        <activity android:name=".activity.SelectDayActvity"
+            android:launchMode="singleInstance"
+            android:theme="@style/SelectDay">
         </activity>
     </application>
 
