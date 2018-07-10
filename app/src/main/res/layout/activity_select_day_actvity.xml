@@ -25,7 +25,8 @@
         android:text="@string/ngay_duong"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:gravity="center"/>
 
     <DatePicker
         android:id="@+id/date_picker_top"
@@ -39,7 +40,6 @@
         android:endYear="2030"
         android:startYear="1970"
         android:theme="@style/DatePicker">
-
     </DatePicker>
 
     <TextView
@@ -52,7 +52,8 @@
         android:text="@string/ngay_am"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:gravity="center"/>
 
     <DatePicker
         android:id="@+id/da_picker_down"
@@ -65,7 +66,9 @@
         android:background="@color/blacktransparent"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
-        android:theme="@style/DatePicker">
+        android:theme="@style/DatePicker"
+        android:endYear="2030"
+        android:startYear="1970">
 
     </DatePicker>
 
@@ -87,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/bg_button"
         android:text="@string/go_to_day"
         android:textColor="@color/white" />
