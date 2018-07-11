@@ -40,8 +40,8 @@ class MonthActivity : AppCompatActivity() {
 
         val yearSet = start.get(Calendar.YEAR)
         start.get(Calendar.MONTH)
-        start.set(yearSet-1, 1, 1)
-        end.set(yearSet+1, 12, 31)
+        start.set(yearSet-2, 1, 1)
+        end.set(yearSet+2, 12, 31)
         setLunar(start, end)
         updateUI()
 

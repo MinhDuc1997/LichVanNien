@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.DatePicker
+import android.widget.Toast
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.modules.RandomOn
 import kotlinx.android.synthetic.main.activity_month.*
@@ -37,6 +39,8 @@ class SelectDayActvity : AppCompatActivity() {
                 else -> return@setOnNavigationItemSelectedListener true
             }
         }
+
+        //date_picker_top.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->  }
     }
 
     fun setUI(){
