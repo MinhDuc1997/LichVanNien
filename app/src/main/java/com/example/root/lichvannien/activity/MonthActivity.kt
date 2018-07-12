@@ -59,6 +59,11 @@ class MonthActivity : AppCompatActivity() {
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
+                R.id.more_item ->{
+                    val intent = Intent(this, MoreActivity::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
                 else -> return@setOnNavigationItemSelectedListener true
             }
         }

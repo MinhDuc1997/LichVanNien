@@ -72,6 +72,17 @@
 
     </DatePicker>
 
+    <Button
+        android:id="@+id/go_to_day"
+        android:layout_width="159dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/bg_button"
+        android:text="@string/go_to_day"
+        android:textColor="@color/white" />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation_select_day"
         android:layout_width="match_parent"
@@ -83,16 +94,5 @@
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white">
     </android.support.design.widget.BottomNavigationView>
-
-    <Button
-        android:id="@+id/go_to_day"
-        android:layout_width="159dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/bg_button"
-        android:text="@string/go_to_day"
-        android:textColor="@color/white" />
 
 </RelativeLayout>

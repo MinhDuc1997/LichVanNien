@@ -48,4 +48,9 @@
         <item name="android:strokeColor">@color/pink</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
+
+    <style name="MoreActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+    </style>
 </resources>
