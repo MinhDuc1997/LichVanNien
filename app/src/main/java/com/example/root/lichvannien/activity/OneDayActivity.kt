@@ -81,7 +81,6 @@ class OneDayActivity : AppCompatActivity() {
                 m = jsonObject.getString("lunarMonth").toInt()
                 y = jsonObject.getString("lunarYear").toInt()
 
-
                 thangconvat = thoiGianConVat.getThangConVat(m, y) //m, y lunar
 
                 ngay_am_lich_in_one_day.text = "Ngày\n$d\n$ngayConVat"

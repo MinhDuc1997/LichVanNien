@@ -85,7 +85,7 @@ class MonthActivity : AppCompatActivity() {
     private fun setLunar(start: Calendar, end: Calendar){
         while (start <= end){
             val calendarDay = CalendarDay(start.get(Calendar.YEAR), start.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH))
-            val lunarDate = LunarCalendar().convertSolar2Lunar(start.get(Calendar.DAY_OF_MONTH), start.get(Calendar.MONTH), start.get(Calendar.YEAR), 7f)
+            val lunarDate = LunarCalendar().convertSolar2Lunar(start.get(Calendar.DAY_OF_MONTH), start.get(Calendar.MONTH)+1, start.get(Calendar.YEAR), 7f)
             val jsonObject = JSONObject(lunarDate)
             calendarView.addDecorator(LunarDecorator(calendarDay, jsonObject.getString("lunarDay").toInt()))
             start.add(Calendar.DAY_OF_MONTH, 1)

@@ -99,13 +99,13 @@ class ThoiGianConVat(millisTime: Long?){
             hours3 = hoursFormat.parse(arrEnd[i]).time //hours end in array
             if(hours2 >= hours1 && hours2 <hours3){
                 finded = 1
-                Log.d("Gio"," ${arrName[i]}")
+                //Log.d("Gio"," ${arrName[i]}")
                 return arrName[i]
             }
         }
         if(finded == 0){
             if(month == 4 || month == 5 || month == 6) {
-                Log.d("Gio", arrName[arrStart.size - 1])
+                //Log.d("Gio", arrName[arrStart.size - 1])
                 return arrName[arrStart.size - 1]
             }else{
                 return arrName[0]
@@ -117,7 +117,7 @@ class ThoiGianConVat(millisTime: Long?){
     fun getNamConVat(year: Int): String{
         val can = arrCanYear[year%10]
         val chi = arrChi[year%12]
-        Log.d("Nam:", "$can $chi")
+                //Log.d("Nam:", "$can $chi")
         return "$can $chi"
     }
 
@@ -129,7 +129,7 @@ class ThoiGianConVat(millisTime: Long?){
 
     fun getThangConVat(month: Int, year: Int): String{
         val can = (year*12+month+3)%10
-        Log.d("Thang", "${arrayCanMonth[can]} ${arrChiMonth[month-1]}")
+        //Log.d("Thang", "${arrayCanMonth[can]} ${arrChiMonth[month-1]}")
         return "${arrayCanMonth[can]} ${arrChiMonth[month-1]}"
     }
 
@@ -137,7 +137,7 @@ class ThoiGianConVat(millisTime: Long?){
         val jd = LunarCalendar().jdFromDate(day, month, year)
         val can = ((jd+9)%10).toInt()
         val chi = ((jd+1)%12).toInt()
-        Log.d("Ngay", "${arrayCanDay[can]} ${arrChiDay[chi]}")
+        //Log.d("Ngay", "${arrayCanDay[can]} ${arrChiDay[chi]}")
         return "${arrayCanDay[can]} ${arrChiDay[chi]}"
     }
 
