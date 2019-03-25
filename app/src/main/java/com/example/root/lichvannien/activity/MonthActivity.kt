@@ -6,16 +6,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.example.root.lichvannien.R
-import com.example.root.lichvannien.modules.DrawLableForDate
-import com.example.root.lichvannien.modules.LunarCalendar
-import com.example.root.lichvannien.modules.RandomOn
+import com.example.root.lichvannien.model.DrawLableForDate
+import com.example.root.lichvannien.model.LunarCalendar
+import com.example.root.lichvannien.model.RandomOn
 import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.activity_month.*
 import org.json.JSONObject
 import java.util.*
-import kotlin.math.max
+import kotlin.collections.HashMap
 
 
 @Suppress("DEPRECATION")
@@ -30,6 +29,8 @@ class MonthActivity : AppCompatActivity() {
             R.drawable.nen8, R.drawable.nen9,
             R.drawable.nen10)
 
+    private val seted = HashMap<String, String>()
+
     private val calendar = Calendar.getInstance()
     val d = calendar.get(Calendar.DAY_OF_MONTH)
     val m = calendar.get(Calendar.MONTH)
@@ -41,10 +42,10 @@ class MonthActivity : AppCompatActivity() {
         setUI()
 
         val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        start.set(y, m, 1)
-        end.set(y, m, lastDayOfMonth)
+        start.set(y, 1, 1)
+        end.set(y, 12, 31)
         setLunar(start, end)
-        setLunar(start, end)
+        seted[y.toString()] = ""
 
         calendarView.setOnDateChangedListener(DateSelectedListener())
         calendarView.setOnMonthChangedListener(MonthChangeListener())
@@ -202,9 +203,14 @@ class MonthActivity : AppCompatActivity() {
             calendar.set(year, month, day)
             val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-            start.set(year, month, 1)
-            end.set(year, month, lastDayOfMonth)
-            setLunar(start, end)
+            val setKey = "$year"
+
+            if (!seted.containsKey(setKey) && year != y) {
+                start.set(year, 1, 1)
+                end.set(year, 12, 31)
+                setLunar(start, end)
+                seted[setKey] = ""
+            }
         }
     }
 

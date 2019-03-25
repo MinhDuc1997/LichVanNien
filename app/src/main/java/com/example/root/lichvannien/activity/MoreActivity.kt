@@ -4,13 +4,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MenuItem
 import com.example.root.lichvannien.R
-import com.example.root.lichvannien.modules.RandomOn
-import kotlinx.android.synthetic.main.activity_month.*
+import com.example.root.lichvannien.model.RandomOn
 import kotlinx.android.synthetic.main.activity_more.*
-import kotlinx.android.synthetic.main.activity_select_day_actvity.*
 
 class MoreActivity : AppCompatActivity() {
 
@@ -25,18 +22,18 @@ class MoreActivity : AppCompatActivity() {
         setContentView(R.layout.activity_more)
         setUI()
         bottom_navigation_more.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.day_item -> {
                     val intent = Intent(this, OneDayActivity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.month_item ->{
+                R.id.month_item -> {
                     val intent = Intent(this, MonthActivity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.change_day_item ->{
+                R.id.change_day_item -> {
                     val intent = Intent(this, SelectDayActvity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
@@ -46,7 +43,7 @@ class MoreActivity : AppCompatActivity() {
         }
     }
 
-    fun setUI(){
+    fun setUI() {
         toolbar_more.showOverflowMenu()
         setSupportActionBar(toolbar_more)
         toolbar_more.setNavigationIcon(R.drawable.ic_back)
@@ -56,15 +53,17 @@ class MoreActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item!!.itemId){
+        when (item!!.itemId) {
             android.R.id.home -> {
                 val i = Intent(this, OneDayActivity::class.java)
                 startActivity(i)
             }
-            else ->{}
+            else -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onResume() {
         super.onResume()
         //bottom_navigation_more.selectedItemId = R.id.more_item

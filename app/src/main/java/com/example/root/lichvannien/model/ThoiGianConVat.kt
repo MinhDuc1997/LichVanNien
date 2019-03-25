@@ -1,7 +1,6 @@
-package com.example.root.lichvannien.modules
+package com.example.root.lichvannien.model
 
 import android.annotation.SuppressLint
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 

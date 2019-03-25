@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.adapter.OneDayAdapter
-import com.example.root.lichvannien.modules.LunarCalendar
-import com.example.root.lichvannien.modules.ThoiGianConVat
+import com.example.root.lichvannien.model.LunarCalendar
+import com.example.root.lichvannien.model.ThoiGianConVat
 import kotlinx.android.synthetic.main.activity_one_day.*
 import org.json.JSONObject
 import java.util.*
@@ -25,7 +25,7 @@ class OneDayActivity : AppCompatActivity() {
     private var m = 0
     private var y = 0
     private lateinit var dates: ArrayList<String>
-    private lateinit var result: String
+    private lateinit var today: String
     private lateinit var thoiGianConVat: ThoiGianConVat
     private lateinit var ngayConVat: String
     private lateinit var thangconvat: String
@@ -44,7 +44,7 @@ class OneDayActivity : AppCompatActivity() {
 
         day_year_in_one_day.text = "$m-$y"
 
-        var lunarDate = LunarCalendar().convertSolar2Lunar(d, m, y,7f)
+        var lunarDate = LunarCalendar().convertSolar2Lunar(d, m, y, 7f)
         var jsonObject = JSONObject(lunarDate)
         d = jsonObject.getString("lunarDay").toInt()
         m = jsonObject.getString("lunarMonth").toInt()
@@ -61,6 +61,7 @@ class OneDayActivity : AppCompatActivity() {
 
             override fun onPageScrollStateChanged(state: Int) {
             }
+
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
 
@@ -85,29 +86,29 @@ class OneDayActivity : AppCompatActivity() {
 
                 ngay_am_lich_in_one_day.text = "Ngày\n$d\n$ngayConVat"
                 thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
-                if(position > lastPosition) {
+                if (position > lastPosition) {
                     //Log.d("aaaaaaaaaa", "left")
                 }
-                if(position < lastPosition) {
+                if (position < lastPosition) {
                     //Log.d("aaaaaaaaaa", "right")
                 }
                 lastPosition = position
             }
         })
 
-        to_day_in_one_day.setOnClickListener{
-            indexFinded = dates.indexOf(result)
+        to_day_in_one_day.setOnClickListener {
+            indexFinded = dates.indexOf(today)
             viewpager.currentItem = indexFinded
         }
 
         bottom_navigation_one_day.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.month_item -> {
                     val intent = Intent(this, MonthActivity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.change_day_item ->{
+                R.id.change_day_item -> {
                     val intent = Intent(this, SelectDayActvity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
@@ -122,14 +123,14 @@ class OneDayActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDate(){
+    private fun setDate() {
         start = Calendar.getInstance()
         end = Calendar.getInstance()
         start.clear()
         end.clear()
 
         start.set(1930, 1, 1)
-        end.set(2070,12,31)
+        end.set(2070, 12, 31)
         dates = setDate(start, end)
 
         wd = currentDate.get(Calendar.DAY_OF_WEEK)
@@ -138,13 +139,13 @@ class OneDayActivity : AppCompatActivity() {
         y = currentDate.get(Calendar.YEAR)
         thoiGianConVat = ThoiGianConVat(null)
         ngayConVat = thoiGianConVat.getNgayConVat(d, m, y)
-        result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
-        indexFinded = dates.indexOf(result)
+        today = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
+        indexFinded = dates.indexOf(today)
     }
 
-    private fun setDate(start: Calendar, end: Calendar): ArrayList<String>{
+    private fun setDate(start: Calendar, end: Calendar): ArrayList<String> {
         val arList = ArrayList<String>()
-        while (start <= end){
+        while (start <= end) {
             val getDate = getDate(start)
             arList.add(getDate)
             start.add(Calendar.DAY_OF_MONTH, 1)
@@ -152,7 +153,7 @@ class OneDayActivity : AppCompatActivity() {
         return arList
     }
 
-    private fun getDate(calendar: Calendar): String{
+    private fun getDate(calendar: Calendar): String {
         val wd = calendar.get(Calendar.DAY_OF_WEEK)
         val d = calendar.get(Calendar.DAY_OF_MONTH)
         val m = calendar.get(Calendar.MONTH) + 1
@@ -160,32 +161,32 @@ class OneDayActivity : AppCompatActivity() {
         return "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
     }
 
-    inner class CountTime: Runnable{
+    inner class CountTime : Runnable {
 
         private val thread = Thread(this)
         private val timer = Timer()
         private var minute = 0
 
-        fun start(){
+        fun start() {
             thread.start()
         }
 
-        fun cancel(){
+        fun cancel() {
             thread.join()
         }
 
         @SuppressLint("SetTextI18n")
         override fun run() {
-            timer.scheduleAtFixedRate(0, 2000){
+            timer.scheduleAtFixedRate(0, 2000) {
                 val currentDatee = Calendar.getInstance()
                 val hourss = currentDatee.get(Calendar.HOUR_OF_DAY)
-                val minutee= currentDatee.get(Calendar.MINUTE)
+                val minutee = currentDatee.get(Calendar.MINUTE)
 
                 val thoiGianConVatt = ThoiGianConVat(currentDatee.timeInMillis)
-                val canhgio =  thoiGianConVatt.getCanhGio(m) //m lunar
+                val canhgio = thoiGianConVatt.getCanhGio(m) //m lunar
 
                 this@OneDayActivity.runOnUiThread {
-                    if(minutee<10)
+                    if (minutee < 10)
                         time_now_in_one_day.text = "Giờ\n$hourss:0$minutee\n$canhgio"
                     else
                         time_now_in_one_day.text = "Giờ\n$hourss:$minutee\n$canhgio"
@@ -210,7 +211,7 @@ class OneDayActivity : AppCompatActivity() {
         setIntent(intent)
         val dateSet = intent.getStringExtra("DateSet")
 
-        if(dateSet != null) {
+        if (dateSet != null) {
             indexFinded = dates.indexOf(dateSet)
             viewpager.currentItem = indexFinded
         }

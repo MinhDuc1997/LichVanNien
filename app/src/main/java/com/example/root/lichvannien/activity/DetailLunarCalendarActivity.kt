@@ -8,9 +8,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.adapter.DetailLunarAdapter
-import com.example.root.lichvannien.modules.LunarCalendar
-import com.example.root.lichvannien.modules.RandomOn
-import com.example.root.lichvannien.modules.ThoiGianConVat
+import com.example.root.lichvannien.model.LunarCalendar
+import com.example.root.lichvannien.model.RandomOn
+import com.example.root.lichvannien.model.ThoiGianConVat
 import kotlinx.android.synthetic.main.activity_detail_lunar_calendar.*
 import org.json.JSONObject
 import java.util.*
@@ -56,7 +56,7 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateUI(){
+    private fun updateUI() {
         val thongTinChung = "Ngày âm: Ngày $lunarDay, tháng $lunarMonth, năm $lunarYear\n" +
                 "Ngày: $ngayHoangDao\n" +
                 "Giờ $gio, ngày $ngay, tháng $thang, năm $nam"
@@ -67,7 +67,7 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
         list_view_lunar.adapter = DetailLunarAdapter(arrLables, arrDatas, R.layout.detail_list_view_lunar, this)
     }
 
-    private fun setUI(){
+    private fun setUI() {
         toolbar_one_day
                 .showOverflowMenu()
         setSupportActionBar(toolbar_one_day)
@@ -78,19 +78,19 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
         list_view_lunar.top = toolbar_one_day.height
     }
 
-    private fun setDate(data: String){
+    private fun setDate(data: String) {
         jsonObject = JSONObject(data)
         wd = jsonObject.getString("weekday")
         d = jsonObject.getString("day").toInt()
         m = jsonObject.getString("month").toInt()
         y = jsonObject.getString("year").toInt()
-        for (i in arrayWeekDay){
-            if(i.key == wd)
+        for (i in arrayWeekDay) {
+            if (i.key == wd)
                 wd = i.value
         }
     }
 
-    private fun setLunar(){
+    private fun setLunar() {
         val lunar = LunarCalendar().convertSolar2Lunar(d, m, y, 7f)
         jsonObject = JSONObject(lunar)
         lunarDay = jsonObject.getString("lunarDay").toInt()
@@ -104,8 +104,8 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
         ngayHoangDao = ngayHoangDao(lunarMonth, ngay)
     }
 
-    private fun ngayHoangDao(month: Int, day: String): String{
-        when(month){
+    private fun ngayHoangDao(month: Int, day: String): String {
+        when (month) {
             1, 7 -> arrHoangDao = arrayListOf("Tý", "Sửu", "Tỵ", "Mùi")
             2, 8 -> arrHoangDao = arrayListOf("Dần", "Mão", "Mùi", "Dậu")
             3, 9 -> arrHoangDao = arrayListOf("Thìn", "Tỵ", "Dậu", "Hợi")
@@ -113,9 +113,9 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
             5, 11 -> arrHoangDao = arrayListOf("Thân", "Dậu", "Sửu", "Mão")
             6, 12 -> arrHoangDao = arrayListOf("Tuất", "Hợi", "Mão", "Tị")
         }
-        val dateSub = day.substring(day.indexOf(" ")+1, day.length)
-        for(i in arrHoangDao){
-            if(i.compareTo(dateSub) == 0) {
+        val dateSub = day.substring(day.indexOf(" ") + 1, day.length)
+        for (i in arrHoangDao) {
+            if (i.compareTo(dateSub) == 0) {
                 Log.d("dateSub", dateSub)
                 return "Hoàng đạo"
             }
@@ -124,9 +124,9 @@ class DetailLunarCalendarActivity : AppCompatActivity() {
         return "Hắc đạo"
     }
 
-    private fun gioHoangDao(day: String): String{
-        val dateSub = day.substring(day.indexOf(" ")+1, day.length)
-        when(dateSub){
+    private fun gioHoangDao(day: String): String {
+        val dateSub = day.substring(day.indexOf(" ") + 1, day.length)
+        when (dateSub) {
             "Tý" -> return "Tý, Sửu, Mão, Ngọ, Thân, Dậu"
             "Sửu" -> return "Dần, Mão, Tỵ, Thân, Tuất, Hợi"
             "Dần" -> return "Tý, Sửu, Thìn, Tỵ, Mùi, Tuất"

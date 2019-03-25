@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import kotlinx.android.synthetic.main.detail_list_view_lunar.view.*
 
-class DetailLunarAdapter(val arrLables: ArrayList<String>, val arrayDatas: ArrayList<String>, val layoutXml: Int, val context: Context): BaseAdapter() {
+class DetailLunarAdapter(val arrLables: ArrayList<String>, val arrayDatas: ArrayList<String>, val layoutXml: Int, val context: Context) : BaseAdapter() {
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val layout = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

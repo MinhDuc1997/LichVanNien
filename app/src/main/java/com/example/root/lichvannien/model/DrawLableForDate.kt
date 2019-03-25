@@ -1,4 +1,4 @@
-package com.example.root.lichvannien.modules
+package com.example.root.lichvannien.model
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -24,7 +24,7 @@ class DrawLableForDate(private val radius: Float, private val color: Int, privat
         val text = price.toString()
         val bounds = Rect()
         paint.getTextBounds(text, 0, text.length, bounds)
-        val x = right / 2 + bounds.width()*2
+        val x = right / 2 + bounds.width() * 2
         val y = bottom
         canvas.drawText(text, x.toFloat(), y.toFloat(), paint)
         paint.setTextSize(oldTextSize)

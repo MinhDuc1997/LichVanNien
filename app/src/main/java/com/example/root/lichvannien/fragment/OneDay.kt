@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.activity.DetailLunarCalendarActivity
-import com.example.root.lichvannien.modules.RandomOn
+import com.example.root.lichvannien.model.RandomOn
 import kotlinx.android.synthetic.main.fragment_one_day.*
 import org.json.JSONObject
 
@@ -46,13 +46,13 @@ class OneDay : Fragment() {
         val d = jsonObject.getString("day")
 
         day.text = d
-        for (i in arrayWeekDay){
-            if(i.key == wd)
+        for (i in arrayWeekDay) {
+            if (i.key == wd)
                 wd = i.value
         }
         weekdayString.text = wd
 
-        relativelayoutfragmentoneday.setOnClickListener{
+        relativelayoutfragmentoneday.setOnClickListener {
             val intent = Intent(context, DetailLunarCalendarActivity::class.java)
             intent.putExtra("data", data)
             context!!.startActivity(intent)
