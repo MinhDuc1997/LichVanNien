@@ -171,9 +171,9 @@ class MonthActivity : AppCompatActivity() {
 
         override fun decorate(view: DayViewFacade) {
             if (lunarDay > 9)
-                view.addSpan(DrawLableForDate(0f, Color.WHITE, "$lunarDay/$lunarMonth"))
+                view.addSpan(DrawLableForDate(Color.WHITE, "$lunarDay/$lunarMonth"))
             else
-                view.addSpan(DrawLableForDate(0f, Color.WHITE, "0$lunarDay/$lunarMonth"))
+                view.addSpan(DrawLableForDate(Color.WHITE, "0$lunarDay/$lunarMonth"))
         }
     }
 

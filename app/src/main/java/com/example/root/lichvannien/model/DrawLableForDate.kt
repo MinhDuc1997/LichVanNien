@@ -6,7 +6,7 @@ import android.graphics.Rect
 import android.text.style.LineBackgroundSpan
 
 
-class DrawLableForDate(private val radius: Float, private val color: Int, private val value: String) : LineBackgroundSpan {
+class DrawLableForDate(private val color: Int, private val value: String) : LineBackgroundSpan {
 
     override fun drawBackground(canvas: Canvas, paint: Paint,
                                 left: Int, right: Int, top: Int,
