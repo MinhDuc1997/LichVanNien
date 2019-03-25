@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.root.lichvannien.R
 import com.example.root.lichvannien.modules.DrawLableForDate
 import com.example.root.lichvannien.modules.LunarCalendar
@@ -14,6 +15,7 @@ import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.activity_month.*
 import org.json.JSONObject
 import java.util.*
+import kotlin.math.max
 
 
 @Suppress("DEPRECATION")
@@ -30,7 +32,7 @@ class MonthActivity : AppCompatActivity() {
 
     private val calendar = Calendar.getInstance()
     val d = calendar.get(Calendar.DAY_OF_MONTH)
-    val m = calendar.get(Calendar.MONTH) + 1
+    val m = calendar.get(Calendar.MONTH)
     val y = calendar.get(Calendar.YEAR)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,38 +40,55 @@ class MonthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_month)
         setUI()
 
-        val yearSet = start.get(Calendar.YEAR)
-        start.get(Calendar.MONTH)
-        start.set(yearSet-2, 1, 1)
-        end.set(yearSet+2, 12, 31)
+        val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        start.set(y, m, 1)
+        end.set(y, m, lastDayOfMonth)
         setLunar(start, end)
-        updateUI()
+        setLunar(start, end)
 
         calendarView.setOnDateChangedListener(DateSelectedListener())
         calendarView.setOnMonthChangedListener(MonthChangeListener())
+
         bottom_navigation_month.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.day_item -> {
                     val intent = Intent(this, OneDayActivity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.change_day_item ->{
+                R.id.change_day_item -> {
                     val intent = Intent(this, SelectDayActvity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.more_item ->{
-                    val intent = Intent(this, MoreActivity::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
+//                R.id.more_item ->{
+//                    val intent = Intent(this, MoreActivity::class.java)
+//                    startActivity(intent)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
                 else -> return@setOnNavigationItemSelectedListener true
             }
         }
     }
 
-    private fun updateUI(){
+    private fun setUI() {
+        toolbar_month.showOverflowMenu()
+        setSupportActionBar(toolbar_month)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        toolbar_month.setNavigationIcon(R.drawable.ic_back)
+        relativelayout_month.setBackgroundResource(arrayDrawer[RandomOn().random(0, 9)])
+
+        val maxDate = Calendar.getInstance()
+        maxDate.set(2070, 12, 31)
+        val minDate = Calendar.getInstance()
+        minDate.set(1930, 1, 1)
+
+        calendarView.state().edit()
+                .setMinimumDate(minDate)
+                .setMaximumDate(maxDate)
+                .commit()
+
         calendarView.setHeaderTextAppearance(R.style.CalendarWidgetHeader)
         calendarView.setDateTextAppearance(R.style.DateTextAppearance)
         calendarView.setWeekDayTextAppearance(R.style.WeekDayTextAppearance)
@@ -77,20 +96,11 @@ class MonthActivity : AppCompatActivity() {
         calendarView.addDecorators(TodayDecorator())
     }
 
-    private fun setUI(){
-        toolbar_month.showOverflowMenu()
-        setSupportActionBar(toolbar_month)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        toolbar_month.setNavigationIcon(R.drawable.ic_back)
-        relativelayout_month.setBackgroundResource(arrayDrawer[RandomOn().random(0, 9)])
-        bottom_navigation_month.menu.findItem(R.id.day_item).title = "Lịch ngày"
-    }
+    private fun setLunar(start: Calendar, end: Calendar) {
 
-    private fun setLunar(start: Calendar, end: Calendar){
-        while (start <= end){
+        while (start <= end) {
             val calendarDay = CalendarDay(start.get(Calendar.YEAR), start.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH))
-            val lunarDate = LunarCalendar().convertSolar2Lunar(start.get(Calendar.DAY_OF_MONTH), start.get(Calendar.MONTH)+1, start.get(Calendar.YEAR), 7f)
+            val lunarDate = LunarCalendar().convertSolar2Lunar(start.get(Calendar.DAY_OF_MONTH), start.get(Calendar.MONTH) + 1, start.get(Calendar.YEAR), 7f)
             val jsonObject = JSONObject(lunarDate)
             calendarView.addDecorator(LunarDecorator(calendarDay, jsonObject.getString("lunarDay").toInt()))
             start.add(Calendar.DAY_OF_MONTH, 1)
@@ -139,9 +149,9 @@ class MonthActivity : AppCompatActivity() {
         override fun shouldDecorate(day: CalendarDay): Boolean {
             day.copyTo(calendar2)
             val dd = calendar2.get(Calendar.DAY_OF_MONTH)
-            val mm= calendar2.get(Calendar.MONTH) + 1
+            val mm = calendar2.get(Calendar.MONTH) + 1
             val yy = calendar2.get(Calendar.YEAR)
-            return dd == d && mm == m && yy == y
+            return dd == d && mm == m + 1 && yy == y
         }
 
         override fun decorate(view: DayViewFacade) {
@@ -149,7 +159,7 @@ class MonthActivity : AppCompatActivity() {
         }
     }
 
-    inner class LunarDecorator(val dates: CalendarDay, var lunarDay: Int): DayViewDecorator {
+    inner class LunarDecorator(val dates: CalendarDay, var lunarDay: Int) : DayViewDecorator {
 
         val calendar3 = Calendar.getInstance()
 
@@ -159,14 +169,14 @@ class MonthActivity : AppCompatActivity() {
         }
 
         override fun decorate(view: DayViewFacade) {
-            if(lunarDay>9)
+            if (lunarDay > 9)
                 view.addSpan(DrawLableForDate(0f, Color.WHITE, "$lunarDay"))
             else
                 view.addSpan(DrawLableForDate(0f, Color.WHITE, "0$lunarDay"))
         }
     }
 
-    inner class DateSelectedListener: OnDateSelectedListener {
+    inner class DateSelectedListener : OnDateSelectedListener {
 
         override fun onDateSelected(p0: MaterialCalendarView, p1: CalendarDay, p2: Boolean) {
             val cal = p1.calendar
@@ -181,9 +191,20 @@ class MonthActivity : AppCompatActivity() {
         }
     }
 
-    inner class MonthChangeListener: OnMonthChangedListener{
+    inner class MonthChangeListener : OnMonthChangedListener {
 
         override fun onMonthChanged(p0: MaterialCalendarView?, p1: CalendarDay) {
+            val year = p1.year
+            val month = p1.month
+            val day = p1.day
+
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, day)
+            val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+            start.set(year, month, 1)
+            end.set(year, month, lastDayOfMonth)
+            setLunar(start, end)
         }
     }
 

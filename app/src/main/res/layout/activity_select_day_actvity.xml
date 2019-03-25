@@ -37,8 +37,8 @@
         android:background="@color/blacktransparent"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
-        android:endYear="2030"
-        android:startYear="1970"
+        android:endYear="2070"
+        android:startYear="1930"
         android:theme="@style/DatePicker">
     </DatePicker>
 
@@ -67,8 +67,8 @@
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         android:theme="@style/DatePicker"
-        android:endYear="2030"
-        android:startYear="1970">
+        android:endYear="2070"
+        android:startYear="1930">
 
     </DatePicker>
 

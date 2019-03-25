@@ -67,6 +67,6 @@ class MoreActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        bottom_navigation_more.selectedItemId = R.id.more_item
+        //bottom_navigation_more.selectedItemId = R.id.more_item
     }
 }

@@ -24,12 +24,13 @@
         android:title="@string/changeDay"
         android:enabled="true"
         android:checked="false"/>
-    <item
-        android:id="@+id/more_item"
-        android:icon="@drawable/ic_more"
-        android:title="@string/more"
-        app:showAsAction="ifRoom"
-        android:enabled="true"
-        android:checked="true"/>
+
+    <!--<item-->
+        <!--android:id="@+id/more_item"-->
+        <!--android:icon="@drawable/ic_more"-->
+        <!--android:title="@string/more"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:enabled="true"-->
+        <!--android:checked="true"/>-->
 
 </menu>

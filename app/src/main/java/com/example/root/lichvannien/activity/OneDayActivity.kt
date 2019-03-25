@@ -19,12 +19,12 @@ import kotlin.concurrent.scheduleAtFixedRate
 
 class OneDayActivity : AppCompatActivity() {
     private var currentDate = Calendar.getInstance()
-    private lateinit var threadTime: ThreahTime
+    private lateinit var threadTime: CountTime
     private var wd = 0
     private var d = 0
     private var m = 0
     private var y = 0
-    private lateinit var getArrayListDate: ArrayList<String>
+    private lateinit var dates: ArrayList<String>
     private lateinit var result: String
     private lateinit var thoiGianConVat: ThoiGianConVat
     private lateinit var ngayConVat: String
@@ -39,7 +39,7 @@ class OneDayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_one_day)
         setDate()
-        viewpager.adapter = OneDayAdapter(supportFragmentManager, getArrayListDate)
+        viewpager.adapter = OneDayAdapter(supportFragmentManager, dates)
         viewpager.currentItem = indexFinded
 
         day_year_in_one_day.text = "$m-$y"
@@ -56,7 +56,7 @@ class OneDayActivity : AppCompatActivity() {
         ngay_am_lich_in_one_day.text = "Ngày\n$d\n$ngayConVat"
         thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
 
-        var lastPage = indexFinded
+        var lastPosition = indexFinded
         viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -66,7 +66,7 @@ class OneDayActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 Log.d("onPageSelected", position.toString())
-                jsonObject = JSONObject(getArrayListDate[position])
+                jsonObject = JSONObject(dates[position])
                 d = jsonObject.getString("day").toInt()
                 m = jsonObject.getString("month").toInt()
                 y = jsonObject.getString("year").toInt()
@@ -85,18 +85,18 @@ class OneDayActivity : AppCompatActivity() {
 
                 ngay_am_lich_in_one_day.text = "Ngày\n$d\n$ngayConVat"
                 thang_am_lich_in_one_day.text = "Tháng\n$m\n$thangconvat"
-                if(position > lastPage) {
+                if(position > lastPosition) {
                     //Log.d("aaaaaaaaaa", "left")
                 }
-                if(position < lastPage) {
+                if(position < lastPosition) {
                     //Log.d("aaaaaaaaaa", "right")
                 }
-                lastPage = position
+                lastPosition = position
             }
         })
 
         to_day_in_one_day.setOnClickListener{
-            indexFinded = getArrayListDate.indexOf(result)
+            indexFinded = dates.indexOf(result)
             viewpager.currentItem = indexFinded
         }
 
@@ -112,11 +112,11 @@ class OneDayActivity : AppCompatActivity() {
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.more_item ->{
+                /*R.id.more_item ->{
                     val intent = Intent(this, MoreActivity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
-                }
+                }*/
                 else -> return@setOnNavigationItemSelectedListener true
             }
         }
@@ -128,9 +128,9 @@ class OneDayActivity : AppCompatActivity() {
         start.clear()
         end.clear()
 
-        start.set(1970, 1, 1)
-        end.set(2030,12,31)
-        getArrayListDate = arrListDate(start, end)
+        start.set(1930, 1, 1)
+        end.set(2070,12,31)
+        dates = setDate(start, end)
 
         wd = currentDate.get(Calendar.DAY_OF_WEEK)
         d = currentDate.get(Calendar.DAY_OF_MONTH)
@@ -139,10 +139,10 @@ class OneDayActivity : AppCompatActivity() {
         thoiGianConVat = ThoiGianConVat(null)
         ngayConVat = thoiGianConVat.getNgayConVat(d, m, y)
         result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
-        indexFinded = getArrayListDate.indexOf(result)
+        indexFinded = dates.indexOf(result)
     }
 
-    private fun arrListDate(start: Calendar, end: Calendar): ArrayList<String>{
+    private fun setDate(start: Calendar, end: Calendar): ArrayList<String>{
         val arList = ArrayList<String>()
         while (start <= end){
             val getDate = getDate(start)
@@ -160,7 +160,7 @@ class OneDayActivity : AppCompatActivity() {
         return "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
     }
 
-    inner class ThreahTime: Runnable{
+    inner class CountTime: Runnable{
 
         private val thread = Thread(this)
         private val timer = Timer()
@@ -197,7 +197,7 @@ class OneDayActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         bottom_navigation_one_day.selectedItemId = R.id.day_item
-        threadTime = ThreahTime()
+        threadTime = CountTime()
         threadTime.start()
     }
 
@@ -211,7 +211,7 @@ class OneDayActivity : AppCompatActivity() {
         val dateSet = intent.getStringExtra("DateSet")
 
         if(dateSet != null) {
-            indexFinded = getArrayListDate.indexOf(dateSet)
+            indexFinded = dates.indexOf(dateSet)
             viewpager.currentItem = indexFinded
         }
         super.onNewIntent(intent)
