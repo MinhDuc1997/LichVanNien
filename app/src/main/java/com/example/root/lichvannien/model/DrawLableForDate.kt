@@ -6,28 +6,26 @@ import android.graphics.Rect
 import android.text.style.LineBackgroundSpan
 
 
-class DrawLableForDate(private val radius: Float, private val color: Int, private val price: String) : LineBackgroundSpan {
+class DrawLableForDate(private val radius: Float, private val color: Int, private val value: String) : LineBackgroundSpan {
 
     override fun drawBackground(canvas: Canvas, paint: Paint,
                                 left: Int, right: Int, top: Int,
                                 baseline: Int, bottom: Int,
                                 charSequence: CharSequence,
                                 start: Int, end: Int, lineNum: Int) {
-        val oldColor = paint.getColor()
-        val oldTextSize = paint.getTextSize()
+        val oldColor = paint.color
+        val oldTextSize = paint.textSize
         if (color != 0) {
             paint.setColor(color)
         }
-        if (price != "") {
-            paint.setTextSize(20f)
+        if (value != "") {
+            paint.setTextSize(18f)
         }
-        val text = price.toString()
-        val bounds = Rect()
-        paint.getTextBounds(text, 0, text.length, bounds)
-        val x = right / 2 + bounds.width() * 2
-        val y = bottom
-        canvas.drawText(text, x.toFloat(), y.toFloat(), paint)
-        paint.setTextSize(oldTextSize)
-        paint.setColor(oldColor)
+        val text = value
+        val x = right / 2f
+        val y = bottom * 1.25f
+        canvas.drawText(text, x, y, paint)
+        paint.textSize = oldTextSize
+        paint.color = oldColor
     }
 }

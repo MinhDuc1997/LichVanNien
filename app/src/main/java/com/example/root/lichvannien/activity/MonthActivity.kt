@@ -42,8 +42,8 @@ class MonthActivity : AppCompatActivity() {
         setUI()
 
         val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        start.set(y, 1, 1)
-        end.set(y, 12, 31)
+        start.set(y, 0, 1)
+        end.set(y, 11, 31)
         setLunar(start, end)
         seted[y.toString()] = ""
 
@@ -103,7 +103,7 @@ class MonthActivity : AppCompatActivity() {
             val calendarDay = CalendarDay(start.get(Calendar.YEAR), start.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH))
             val lunarDate = LunarCalendar().convertSolar2Lunar(start.get(Calendar.DAY_OF_MONTH), start.get(Calendar.MONTH) + 1, start.get(Calendar.YEAR), 7f)
             val jsonObject = JSONObject(lunarDate)
-            calendarView.addDecorator(LunarDecorator(calendarDay, jsonObject.getString("lunarDay").toInt()))
+            calendarView.addDecorator(LunarDecorator(calendarDay, jsonObject.getString("lunarDay").toInt(), jsonObject.getString("lunarMonth").toInt()))
             start.add(Calendar.DAY_OF_MONTH, 1)
         }
     }
@@ -160,7 +160,7 @@ class MonthActivity : AppCompatActivity() {
         }
     }
 
-    inner class LunarDecorator(val dates: CalendarDay, var lunarDay: Int) : DayViewDecorator {
+    inner class LunarDecorator(val dates: CalendarDay, val lunarDay: Int, val lunarMonth: Int) : DayViewDecorator {
 
         val calendar3 = Calendar.getInstance()
 
@@ -171,9 +171,9 @@ class MonthActivity : AppCompatActivity() {
 
         override fun decorate(view: DayViewFacade) {
             if (lunarDay > 9)
-                view.addSpan(DrawLableForDate(0f, Color.WHITE, "$lunarDay"))
+                view.addSpan(DrawLableForDate(0f, Color.WHITE, "$lunarDay/$lunarMonth"))
             else
-                view.addSpan(DrawLableForDate(0f, Color.WHITE, "0$lunarDay"))
+                view.addSpan(DrawLableForDate(0f, Color.WHITE, "0$lunarDay/$lunarMonth"))
         }
     }
 
@@ -206,8 +206,8 @@ class MonthActivity : AppCompatActivity() {
             val setKey = "$year"
 
             if (!seted.containsKey(setKey) && year != y) {
-                start.set(year, 1, 1)
-                end.set(year, 12, 31)
+                start.set(year, 0, 1)
+                end.set(year, 11, 31)
                 setLunar(start, end)
                 seted[setKey] = ""
             }
