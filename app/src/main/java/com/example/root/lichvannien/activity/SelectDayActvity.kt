@@ -55,6 +55,17 @@ class SelectDayActvity : AppCompatActivity() {
         val cal = Calendar.getInstance()
         date_picker_top.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), ListenerDatePicker1())
         date_picker_down.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), ListenerDatePicker2())
+
+        val dayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
+        wd = dayOfWeek
+        y = cal.get(Calendar.YEAR)
+        m = cal.get(Calendar.MONTH)
+        d = cal.get(Calendar.DATE)
+        Log.d("wd", dayOfWeek.toString())
+        val lunar = LunarCalendar().convertSolar2Lunar(d, m + 1, y, 7f)
+        val jsonObj = JSONObject(lunar)
+        date_picker_down.updateDate(jsonObj.getString("lunarYear").toInt(), jsonObj.getString("lunarMonth").toInt() - 1, jsonObj.getString("lunarDay").toInt())
+
         go_to_day.setOnClickListener {
             val result = "{'weekday': '$wd' ,'day': '$d', 'month': '$m', 'year': '$y'}"
             Log.d("result", result)
@@ -88,10 +99,14 @@ class SelectDayActvity : AppCompatActivity() {
     inner class ListenerDatePicker1 : DatePicker.OnDateChangedListener {
         override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
             Log.d("solar", "$year ${monthOfYear + 1} $dayOfMonth")
-            val newCal = Calendar.getInstance()
-            newCal.set(year, monthOfYear, dayOfMonth)
-            val dayOfWeek = newCal.get(Calendar.DAY_OF_WEEK)
-            y = year; m = monthOfYear + 1; d = dayOfMonth; wd = dayOfWeek; Log.d("wd", dayOfWeek.toString())
+            val calendar = Calendar.getInstance()
+            calendar.set(year, monthOfYear, dayOfMonth)
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            y = year
+            m = monthOfYear + 1
+            d = dayOfMonth
+            wd = dayOfWeek
+            Log.d("wd", dayOfWeek.toString())
             val lunar = LunarCalendar().convertSolar2Lunar(dayOfMonth, monthOfYear + 1, year, 7f)
             val jsonObj = JSONObject(lunar)
             date_picker_down.updateDate(jsonObj.getString("lunarYear").toInt(), jsonObj.getString("lunarMonth").toInt() - 1, jsonObj.getString("lunarDay").toInt())
